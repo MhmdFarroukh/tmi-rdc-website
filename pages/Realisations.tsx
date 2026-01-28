@@ -41,34 +41,34 @@ const FILTERS: { id: "all" | Tag; label: string }[] = [
 export const RealisationsPage: React.FC = () => {
   const heroVideo = withBase("images/immersion/WhatsApp Video 2026-01-23 at 1.00.59 PM.mp4");
 
-  const flameMask1 = withBase("images/immersion/flame.png");
-  const flameMask2 = withBase("images/immersion/flame2.png");
+  const flameMask1 = withBase("images/immersion/flame.webp");
+  const flameMask2 = withBase("images/immersion/flame2.webp");
 
   const ALL: MediaItem[] = useMemo(
     () => [
-      { src: withBase("images/immersion/charpente.png"), tags: ["construction"] },
-      { src: withBase("images/immersion/construction.png"), tags: ["construction"] },
+      { src: withBase("images/immersion/charpente.webp"), tags: ["construction"] },
+      { src: withBase("images/immersion/construction.webp"), tags: ["construction"] },
       { src: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.02.21 PM.jpeg"), tags: ["construction"] },
       { src: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.01.43 PM.jpeg"), tags: ["construction"] },
 
-      { src: withBase("images/immersion/remorque.png"), tags: ["remorques"] },
+      { src: withBase("images/immersion/remorque.webp"), tags: ["remorques"] },
       { src: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.01.33 PM.jpeg"), tags: ["remorques"] },
 
       {
-        src: withBase("images/immersion/qualite.png"),
+        src: withBase("images/immersion/qualite.webp"),
         alt: "Qualité, Satisfaction & Fidélisation",
         tags: ["maintenance"],
         mask: flameMask2,
         strength: 0.85,
       },
       {
-        src: withBase("images/immersion/img2.png"),
+        src: withBase("images/immersion/img2.webp"),
         alt: "Maintenance",
         tags: ["maintenance"],
         mask: flameMask1,
         strength: 1,
       },
-      { src: withBase("images/immersion/img3.png"), tags: ["maintenance"] },
+      { src: withBase("images/immersion/img3.webp"), tags: ["maintenance"] },
 
       { src: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.01.12 PM.jpeg"), tags: ["atelier"] },
       { src: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.01.20 PM.jpeg"), tags: ["atelier"] },
@@ -232,6 +232,8 @@ const GalleryCard: React.FC<{ item: MediaItem; onClick: () => void }> = ({ item,
       <SmartImage
         src={item.src}
         alt={item.alt ?? "Image"}
+        responsiveSizes={true}
+        forGrid={true}
         className="w-full h-auto object-cover grayscale opacity-85 transition-transform duration-700 group-hover:scale-105"
       />
 

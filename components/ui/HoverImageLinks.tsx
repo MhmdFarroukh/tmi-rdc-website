@@ -26,7 +26,7 @@ const LINKS = [
   {
     heading: "Remorque Plateau Remorques Citerne",
     subheading: "Stockage grande capacité",
-    imgSrc: withBase("/images_optimized/immersion/remorque.480.webp"),
+    imgSrc: withBase("images/immersion/remorque.png"),
     href: "/prestation-services",
   },
   {
@@ -38,7 +38,7 @@ const LINKS = [
   {
     heading: "Menuiserie & Porte",
     subheading: "Travaux & finitions",
-    imgSrc: withBase("/images_optimized/immersion/img2.480.webp"),
+    imgSrc: withBase("images/immersion/img2.png"),
     href: "/prestation-services",
   },
 ];

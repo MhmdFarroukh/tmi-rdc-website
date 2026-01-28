@@ -5,11 +5,18 @@ const DiveImmersion = () => {
   const ref = useRef<HTMLElement | null>(null);
   const [ready, setReady] = useState(false);
 
+  const withBase = (p: string) => {
+    const base = import.meta.env.BASE_URL ?? "/";
+    const cleanBase = base.endsWith("/") ? base : `${base}/`;
+    const cleanPath = p.startsWith("/") ? p.slice(1) : p;
+    return `${cleanBase}${cleanPath}`;
+  };
+
   const IMAGES = useMemo(
     () => [
-      "/images_optimized/immersion/img1.480.webp",
-      "/images_optimized/immersion/img2.480.webp",
-      "/images_optimized/immersion/img3.480.webp",
+      withBase("images/immersion/img1.png"),
+      withBase("images/immersion/img2.png"),
+      withBase("images/immersion/img3.png"),
     ],
     []
   );

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Reveal } from "../components/ui/Reveal";
 import { ParallaxImage } from "../components/ui/ParallaxImage";
 import { LightboxPortal } from "../components/ui/LightboxPortal";
+import { SmartImage } from "../components/ui/SmartImage";
 
 // Proper URL encoding for image paths with spaces and special characters
 const withBase = (p: string) => {
@@ -26,19 +27,19 @@ export const ServicesPage: React.FC = () => {
   const IMG = useMemo(
     () => ({
       hangar: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.02.21 PM.jpeg"),
-      depot: withBase("images/immersion/construction.png"),
-      charpente: withBase("images/immersion/charpente.png"),
+      depot: withBase("images/immersion/construction.webp"),
+      charpente: withBase("images/immersion/charpente.webp"),
 
       citerne1: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.01.54 PM.jpeg"),
       citerne2: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.01.43 PM.jpeg"),
       citerne3: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.01.33 PM.jpeg"),
 
-      remorque1: withBase("images/immersion/remorque.png"),
+      remorque1: withBase("images/immersion/remorque.webp"),
       remorque2: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.01.33 PM.jpeg"),
 
-      maintenance1: withBase("images/immersion/img2.png"),
-      maintenance2: withBase("images/immersion/img3.png"),
-      qualite: withBase("images/immersion/qualite.png"),
+      maintenance1: withBase("images/immersion/img2.webp"),
+      maintenance2: withBase("images/immersion/img3.webp"),
+      qualite: withBase("images/immersion/qualite.webp"),
 
       atelier1: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.01.12 PM.jpeg"),
       atelier2: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.01.20 PM.jpeg"),
@@ -253,11 +254,12 @@ export const ServicesPage: React.FC = () => {
                           type="button"
                         >
                           <div className="w-full h-full">
-                            <img
+                            <SmartImage
                               src={img.src}
                               alt={img.alt ?? "Image"}
+                              responsiveSizes={true}
+                              forGrid={true}
                               className="w-full h-full object-cover grayscale opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
-                              loading="lazy"
                               decoding="async"
                               onError={(e) => {
                                 console.error("[Services Gallery] Image failed to load:", {

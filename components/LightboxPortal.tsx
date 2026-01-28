@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
 
 type Props = {
@@ -10,6 +10,13 @@ type Props = {
 };
 
 export default function LightboxPortal({ open, src, onClose, onPrev, onNext }: Props) {
+  // Convert thumbnail path to full-size only when lightbox opens
+  const fullSizeSrc = useMemo(() => {
+    if (!src) return null;
+    // If src contains size indicator (_480px, _768px, etc), remove it for full-size
+    return src.replace(/_\d+px\.(webp|jpg|jpeg|png)$/i, '.$1');
+  }, [src]);
+
   useEffect(() => {
     if (!open) return;
 
@@ -27,7 +34,7 @@ export default function LightboxPortal({ open, src, onClose, onPrev, onNext }: P
     };
   }, [open, onClose, onPrev, onNext]);
 
-  if (!open || !src) return null;
+  if (!open || !fullSizeSrc) return null;
 
   return createPortal(
     <div
@@ -65,10 +72,12 @@ export default function LightboxPortal({ open, src, onClose, onPrev, onNext }: P
       </div>
 
       <img
-        src={src}
+        src={fullSizeSrc}
         className="max-h-[90vh] max-w-[95vw] object-contain rounded-xl shadow-2xl"
         onClick={(e) => e.stopPropagation()}
         alt=""
+        loading="eager"
+        decoding="async"
       />
     </div>,
     document.body

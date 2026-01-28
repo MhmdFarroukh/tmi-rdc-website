@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { motion, useTransform, useScroll } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { SmartImage } from "./SmartImage";
 
 const withBase = (p: string) => {
   const base = import.meta.env.BASE_URL ?? "/";
@@ -19,41 +20,41 @@ type CardItem = {
 
 const cards: CardItem[] = [
   {
-    // ✅ MUST be in: public/images/immersion/charpente.png
-    url: withBase("images/immersion/charpente.png"),
+    // ✅ MUST be in: public/images/immersion/charpente.webp
+    url: withBase("images/immersion/charpente.webp"),
     title: "Charpente Métallique",
     id: 1,
     desc: "Structures Grande Portée",
   },
   {
-    // ✅ MUST be in: public/images/immersion/construction.png
-    url: withBase("images/immersion/construction.png"),
+    // ✅ MUST be in: public/images/immersion/construction.webp
+    url: withBase("images/immersion/construction.webp"),
     title: "TECHNO METAL INDUSTRIE",
     id: 2,
     desc: "Cuves & Réservoirs",
   },
   {
-    url: withBase("images/immersion/remorque.png"),
+    url: withBase("images/immersion/remorque.webp"),
     title: "Construction remorque",
     id: 3,
     desc: "Réseaux Industriels",
   },
   {
-    url: withBase("images/immersion/qualite.png"),
+    url: withBase("images/immersion/qualite.webp"),
     title: "QUALITÉ, SATISFACTION & FIDÉLISATION",
     id: 4,
     desc: "Infrastructures Minières",
-    revealMaskUrl: withBase("images/immersion/flame2.png"),
+    revealMaskUrl: withBase("images/immersion/flame2.webp"),
   },
   {
-    url: withBase("images/immersion/img2.png"),
+    url: withBase("images/immersion/img2.webp"),
     title: "Maintenance",
     id: 5,
     desc: "Service Sur Site",
-    revealMaskUrl: withBase("images/immersion/flame.png"),
+    revealMaskUrl: withBase("images/immersion/flame.webp"),
   },
   {
-    url: withBase("images/immersion/img3.png"),
+    url: withBase("images/immersion/img3.webp"),
     title: "Atelier",
     id: 6,
     desc: "Fabrication & Assemblage",
@@ -222,12 +223,13 @@ const Card: React.FC<{ card: CardItem }> = ({ card }) => {
 
   return (
     <div className="group relative h-[60vh] w-[80vw] md:h-[70vh] md:w-[50vw] overflow-hidden bg-neutral-900 border border-white/5">
-      <img
+      <SmartImage
         src={card.url}
         alt={card.title}
+        responsiveSizes={true}
+        forGrid={true}
         className="absolute inset-0 h-full w-full object-cover grayscale opacity-70 transition-transform duration-1000 group-hover:scale-110"
         draggable={false}
-        loading="lazy"
         decoding="async"
         onError={() => console.error("[Carousel] failed to load:", card.url)}
       />

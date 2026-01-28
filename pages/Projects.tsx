@@ -69,7 +69,7 @@ const PROJECTS: ProjectCardItem[] = [
     subtitle: "Assemblage, renforts & finitions",
     tag: "REMORQUES",
     category: "REMORQUES",
-    img: withBase("images/immersion/remorque.png"),
+    img: withBase("images/immersion/remorque.webp"),
     slug: "remorque-plateau",
   },
   {
@@ -77,7 +77,7 @@ const PROJECTS: ProjectCardItem[] = [
     subtitle: "Interventions & réparations",
     tag: "MAINTENANCE",
     category: "MAINTENANCE",
-    img: withBase("images/immersion/img2.png"),
+    img: withBase("images/immersion/img2.webp"),
     slug: "maintenance-soudure",
   },
   {
@@ -102,6 +102,8 @@ const ProjectCard: React.FC<{ p: ProjectCardItem }> = ({ p }) => {
         <SmartImage
           src={p.img}
           alt={p.title}
+          responsiveSizes={true}
+          forGrid={true}
           className="absolute inset-0 w-full h-full object-cover grayscale opacity-85 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700"
         />
       </div>

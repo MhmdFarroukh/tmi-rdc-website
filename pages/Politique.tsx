@@ -33,14 +33,14 @@ function resolveAsset(file: string, hintDir?: string) {
 
 const GALLERY: GalleryItem[] = [
   // If these are NOT in images/immersion, change hintDir or put full path.
-  { title: "Chantier / structure", file: "construction.png", hintDir: "immersion" },
-  { title: "Construction métallique", file: "charpente.png", hintDir: "immersion" },
+  { title: "Chantier / structure", file: "construction.webp", hintDir: "immersion" },
+  { title: "Construction métallique", file: "charpente.webp", hintDir: "immersion" },
   { title: "Charpente métallique", file: "WhatsApp Image 2026-01-23 at 1.02.21 PM.jpeg", hintDir: "immersion" },
   { title: "Citerne / réservoir", file: "WhatsApp Image 2026-01-23 at 1.01.54 PM.jpeg", hintDir: "immersion" },
-  { title: "Remorque", file: "remorque.png", hintDir: "immersion" },
-  { title: "Maintenance", file: "img2.png", hintDir: "immersion" },
-  { title: "Atelier", file: "img3.png", hintDir: "immersion" },
-  { title: "Qualité", file: "qualite.png", hintDir: "immersion" },
+  { title: "Remorque", file: "remorque.webp", hintDir: "immersion" },
+  { title: "Maintenance", file: "img2.webp", hintDir: "immersion" },
+  { title: "Atelier", file: "img3.webp", hintDir: "immersion" },
+  { title: "Qualité", file: "qualite.webp", hintDir: "immersion" },
 ];
 
 const Lightbox: React.FC<{

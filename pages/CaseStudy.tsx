@@ -4,6 +4,7 @@ import { CASE_STUDIES } from "../data/caseStudies";
 import { motion } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { LightboxPortal } from "../components/ui/LightboxPortal";
+import { SmartImage } from "../components/ui/SmartImage";
 
 // Proper URL encoding for image paths with spaces and special characters
 const withBase = (p: string) => {
@@ -50,10 +51,12 @@ export const CaseStudyPage: React.FC = () => {
       {/* HERO */}
       <section className="relative h-[60vh] overflow-hidden">
         <div className="absolute inset-0">
-          <img
+          <SmartImage
             src={withBase(cs.hero)}
             alt={cs.title}
             loading="eager"
+            fetchpriority="high"
+            responsiveSizes={true}
             className="absolute inset-0 w-full h-full object-cover grayscale opacity-80"
             onError={(e) =>
               console.error("[CaseStudy] Hero image failed:", {
@@ -97,11 +100,12 @@ export const CaseStudyPage: React.FC = () => {
               type="button"
             >
               <div className="w-full h-[280px] overflow-hidden">
-                <img
+                <SmartImage
                   src={withBase(src)}
                   alt={cs.title}
+                  responsiveSizes={true}
+                  forGrid={true}
                   className="w-full h-full object-cover grayscale opacity-85 group-hover:scale-105 transition-transform duration-700"
-                  loading="lazy"
                   decoding="async"
                   onError={(e) =>
                     console.error("[CaseStudy] Gallery image failed:", {

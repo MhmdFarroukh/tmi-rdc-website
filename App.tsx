@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
@@ -7,12 +7,14 @@ import { ProjectsPage } from './pages/Projects';
 import { NewsPage } from './pages/News';
 import { ContactPage } from "./pages/Contact";
 import { SmoothScroll } from './components/SmoothScroll';
-import RealisationsPage from "./pages/Realisations";// App.tsx
-import { CaseStudyPage } from "./pages/CaseStudy";
 import { Politique } from "./pages/Politique";
 
+// Lazy-load heavy routes to reduce initial JS bundle
+const RealisationsPage = lazy(() => import("./pages/Realisations"));
+const CaseStudyPage = lazy(() => import("./pages/CaseStudy").then(m => ({ default: m.CaseStudyPage })));
 
-
+// Loading fallback for lazy routes
+const LazyFallback = () => <div className="h-screen flex items-center justify-center text-white">Chargement...</div>;
 
 const App: React.FC = () => {
   return (
@@ -22,10 +24,24 @@ const App: React.FC = () => {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="prestation-services" element={<Services />} />
-            <Route path="realisations" element={<RealisationsPage />} />
-<Route path="politique" element={<Politique />} />
+            <Route 
+              path="realisations" 
+              element={
+                <Suspense fallback={<LazyFallback />}>
+                  <RealisationsPage />
+                </Suspense>
+              } 
+            />
+            <Route path="politique" element={<Politique />} />
             <Route path="projets" element={<ProjectsPage />} />
-            <Route path="projets/:slug" element={<CaseStudyPage />} />
+            <Route 
+              path="projets/:slug" 
+              element={
+                <Suspense fallback={<LazyFallback />}>
+                  <CaseStudyPage />
+                </Suspense>
+              } 
+            />
             <Route path="news" element={<NewsPage />} />
             <Route path="contact" element={<ContactPage />} />
             <Route path="*" element={<div className="h-screen flex items-center justify-center text-white">404 - Not Found</div>} />
