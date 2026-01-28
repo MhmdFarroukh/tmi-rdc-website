@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TMI-RDC | Experts en Construction Métallique</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="/images/immersion/hero.avif" type="image/avif" />
+<!-- Tailwind -->
+    <style>
+      body {
+        background-color: #0a0a0a;
+        color: #f5f5f5;
+        overflow-x: hidden;
+      }
+      
+      /* Lenis Recommended Styles */
+      html.lenis, html.lenis body {
+        height: auto;
+      }
+      .lenis.lenis-smooth {
+        scroll-behavior: auto !important;
+      }
+      .lenis.lenis-smooth [data-lenis-prevent] {
+        overscroll-behavior: contain;
+      }
+      .lenis.lenis-stopped {
+        overflow: hidden;
+      }
+      .lenis.lenis-scrolling iframe {
+        pointer-events: none;
+      }
+
+      /* Minimal Scrollbar */
+      ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+      }
+
+      /* Outline text (used in footer "Build.") */
+.text-stroke-white {
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.95);
+}
+
+/* --- Welding hotspot reveal effect --- */
+.hotspot-wrap .hotspot-color,
+.hotspot-wrap .hotspot-glow {
+  opacity: 0;
+}
+
+/* Only enable when in view (optional) */
+.hotspot-wrap.not-active .hotspot-color,
+.hotspot-wrap.not-active .hotspot-glow {
+  opacity: 0 !important;
+}
+
+/* The colored image: saturate + contrast, then MASK it to a small circle */
+.hotspot-wrap.is-active .hotspot-color {
+  opacity: 0;
+  filter: saturate(2.2) contrast(1.15);
+  /* reveal area near the welding point */
+  -webkit-mask-image: radial-gradient(
+    circle 120px at var(--hx) var(--hy),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.85) 35%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  mask-image: radial-gradient(
+    circle 120px at var(--hx) var(--hy),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.85) 35%,
+    rgba(0, 0, 0, 0) 70%
+  );
+}
+
+/* The orange/yellow “sparks” glow layer (pure CSS) */
+.hotspot-wrap.is-active .hotspot-glow {
+  opacity: 0;
+  background:
+    radial-gradient(circle 70px at var(--hx) var(--hy),
+      rgba(255, 94, 0, 0.75),
+      rgba(255, 200, 0, 0.25) 35%,
+      rgba(0, 0, 0, 0) 70%);
+  mix-blend-mode: screen;
+  filter: blur(0.2px);
+}
+
+/* Hover = turn it on + flicker */
+.hotspot-wrap.is-active:hover .hotspot-color {
+  opacity: 1;
+}
+.hotspot-wrap.is-active:hover .hotspot-glow {
+  opacity: 1;
+  animation: sparkFlicker 900ms infinite;
+}
+
+@keyframes sparkFlicker {
+  0%   { opacity: 0.55; transform: translate(0, 0) scale(1); }
+  20%  { opacity: 0.95; transform: translate(1px, -1px) scale(1.03); }
+  45%  { opacity: 0.65; transform: translate(-1px, 1px) scale(0.99); }
+  70%  { opacity: 1;    transform: translate(1px, 0px) scale(1.05); }
+  100% { opacity: 0.75; transform: translate(0, 0) scale(1); }
+}
+
+    </style>
+  <link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

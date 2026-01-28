@@ -1,0 +1,30 @@
+{
+  "name": "tmi-rdc-forged-precision",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "optimize-images": "node scripts/optimize-images.js"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.1.2",
+    "autoprefixer": "^10.4.20",
+    "framer-motion": "^12.25.0",
+    "lenis": "1.1.20",
+    "lucide-react": "^0.562.0",
+    "postcss": "^8.4.49",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-router-dom": "^7.12.0",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.8.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "sharp": "^0.34.5",
+    "vite": "^6.4.1"
+  }
+}

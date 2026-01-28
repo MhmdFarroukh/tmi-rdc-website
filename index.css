@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Keep the app background consistent even before JS loads */
+html, body {
+  background: #0a0a0a;
+}
