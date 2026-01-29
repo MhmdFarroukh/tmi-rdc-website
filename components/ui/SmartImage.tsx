@@ -8,16 +8,19 @@ export type SmartImageProps = React.ImgHTMLAttributes<HTMLImageElement> & {
 
 function getWebPPath(src: string | undefined, size: number | null = null): string | undefined {
   if (!src) return src;
+
   if (src.toLowerCase().endsWith(".webp")) {
     if (size) return src.replace(/\.webp$/i, `_${size}px.webp`);
     return src;
   }
+
   const ext = /\.(png|gif)$/i;
   if (ext.test(src)) {
     const base = src.replace(ext, "");
     if (size) return `${base}_${size}px.webp`;
     return `${base}.webp`;
   }
+
   return src;
 }
 
@@ -77,18 +80,12 @@ export function SmartImage({
 }: SmartImageProps) {
   const [loaded, setLoaded] = useState(false);
 
-  // Reset loaded state when src changes
   useEffect(() => {
     setLoaded(false);
   }, [src]);
 
-  const webpSrcSet = useMemo(
-    () => (responsiveSizes ? generateSrcSet(src, forGrid) : ""),
-    [src, responsiveSizes, forGrid]
-  );
-
+  const webpSrcSet = useMemo(() => (responsiveSizes ? generateSrcSet(src, forGrid) : ""), [src, responsiveSizes, forGrid]);
   const fallbackSrc = useMemo(() => getFallbackPath(src), [src]);
-
   const fallbackSrcSet = useMemo(
     () => (responsiveSizes ? generateFallbackSrcSet(src, forGrid) : ""),
     [src, responsiveSizes, forGrid]
@@ -97,8 +94,17 @@ export function SmartImage({
   const sizes = userSizes ?? (responsiveSizes ? generateSizes(forGrid) : undefined);
 
   return (
-    <div className={className} style={{ position: "relative", overflow: "hidden", ...style }}>
-      {/* Skeleton overlay */}
+    <div
+      className={className}
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        width: "100%",
+        height: "100%",
+        ...style,
+      }}
+    >
+      {/* ✅ Skeleton overlay (correct) */}
       <div
         aria-hidden
         style={{
@@ -107,18 +113,12 @@ export function SmartImage({
           background: "#0b0b0b",
           opacity: loaded ? 0 : 1,
           transition: "opacity 250ms ease",
+          pointerEvents: "none",
         }}
       />
 
-      {/* Real image defines layout (NO absolute positioning) */}
       <picture>
-        {src ? (
-          <source
-            type="image/webp"
-            srcSet={webpSrcSet || src}
-            sizes={sizes}
-          />
-        ) : null}
+        {src ? <source type="image/webp" srcSet={webpSrcSet || src} sizes={sizes} /> : null}
 
         <img
           {...rest}
@@ -131,6 +131,7 @@ export function SmartImage({
             display: "block",
             width: "100%",
             height: "100%",
+            objectFit: (rest.style as any)?.objectFit || "cover",
             opacity: loaded ? 1 : 0,
             transition: "opacity 250ms ease",
             ...(rest.style || {}),
@@ -141,7 +142,7 @@ export function SmartImage({
             rest.onLoad?.(e);
           }}
           onError={(e) => {
-            // If you want: keep skeleton hidden even if error
+            // still fade in (so you don't keep a permanent skeleton)
             setLoaded(true);
             rest.onError?.(e);
           }}
