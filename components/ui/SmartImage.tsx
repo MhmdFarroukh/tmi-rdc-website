@@ -173,24 +173,19 @@ export function SmartImage({
   // Accessibility: use role img on wrapper and provide aria-label from alt prop
   const ariaLabel = (rest && (rest as any).alt) || undefined;
 
-  // Wrapper style: background image set when loaded. Use transition for smooth fade.
-  const wrapperStyle: React.CSSProperties = loaded && !failed ? {
+  // Wrapper background style for the skeleton layer
+  const bgStyle: React.CSSProperties = loaded && !failed ? {
     backgroundImage: `url('${fallbackSrc || src}')`,
     backgroundSize: 'cover',
     backgroundPosition: 'center center',
     backgroundRepeat: 'no-repeat',
-    transition: 'opacity 300ms ease-in-out',
     opacity: 1,
   } : {
     backgroundColor: '#0b0b0b',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center center',
-    backgroundRepeat: 'no-repeat',
-    transition: 'opacity 300ms ease-in-out',
-    opacity: 0.0001,
+    opacity: 1,
   };
 
-  // Provide a visible skeleton element while loading to prevent CLS
+  // Provide a visible skeleton overlay while loading to prevent CLS
   return (
     <div
       role={ariaLabel ? 'img' : undefined}
@@ -198,26 +193,32 @@ export function SmartImage({
       className={(rest && (rest as any).className) || undefined}
       style={{ position: 'relative', overflow: 'hidden' }}
     >
-      {/* Skeleton / background */}
+      {/* Skeleton / background overlay (absolute) */}
       <div
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'block',
-          ...wrapperStyle,
-        }}
-        data-loaded={loaded}
-      />
-      {/* Visually-hidden img for semantics and to allow fetchpriority attribute if needed */}
-      <img
+        aria-hidden
         style={{
           position: 'absolute',
           inset: 0,
+          pointerEvents: 'none',
+          transition: 'opacity 300ms ease-in-out',
+          opacity: loaded ? 0 : 1,
+          zIndex: 0,
+          ...bgStyle,
+        }}
+        data-loaded={loaded}
+      />
+
+      {/* The real image stays in normal flow so container retains height */}
+      <img
+        style={{
           width: '100%',
-          height: '100%',
+          height: 'auto',
+          display: 'block',
           objectFit: (rest && (rest as any).style && (rest as any).style.objectFit) || 'cover',
           opacity: loaded ? 1 : 0,
           transition: 'opacity 300ms ease-in-out',
+          position: 'relative',
+          zIndex: 1,
         }}
         loading={loading}
         decoding={decoding}
