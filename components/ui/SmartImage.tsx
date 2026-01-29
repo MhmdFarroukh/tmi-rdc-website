@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 
 export type SmartImageProps = React.ImgHTMLAttributes<HTMLImageElement> & {
   fetchpriority?: "high" | "low" | "auto";
@@ -143,19 +143,92 @@ export function SmartImage({
   sizes: userSizes,
   ...rest
 }: SmartImageProps) {
-  // For now, disable responsive srcset - just use the base fallback image
-  // This avoids issues with encoded paths and special characters
-  // Images will load correctly but without responsive variants
+  // Use preloading with a skeleton to avoid broken-image icon and flashes.
   const fallbackSrc = useMemo(() => getFallbackPath(src), [src]);
+  const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
 
+  useEffect(() => {
+    let cancelled = false;
+    setLoaded(false);
+    setFailed(false);
+
+    const imgSrc = fallbackSrc || src;
+    if (!imgSrc) return;
+
+    const img = new Image();
+    img.src = imgSrc;
+    img.onload = () => {
+      if (!cancelled) setLoaded(true);
+    };
+    img.onerror = () => {
+      if (!cancelled) setFailed(true);
+    };
+
+    return () => {
+      cancelled = true;
+    };
+  }, [fallbackSrc, src]);
+
+  // Accessibility: use role img on wrapper and provide aria-label from alt prop
+  const ariaLabel = (rest && (rest as any).alt) || undefined;
+
+  // Wrapper style: background image set when loaded. Use transition for smooth fade.
+  const wrapperStyle: React.CSSProperties = loaded && !failed ? {
+    backgroundImage: `url('${fallbackSrc || src}')`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center center',
+    backgroundRepeat: 'no-repeat',
+    transition: 'opacity 300ms ease-in-out',
+    opacity: 1,
+  } : {
+    backgroundColor: '#0b0b0b',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center center',
+    backgroundRepeat: 'no-repeat',
+    transition: 'opacity 300ms ease-in-out',
+    opacity: 0.0001,
+  };
+
+  // Provide a visible skeleton element while loading to prevent CLS
   return (
-    <img
-      loading={loading}
-      decoding={decoding}
-      src={fallbackSrc || src}
-      {...(fetchpriority ? ({ fetchpriority } as any) : {})}
-      {...rest}
-    />
+    <div
+      role={ariaLabel ? 'img' : undefined}
+      aria-label={ariaLabel}
+      className={(rest && (rest as any).className) || undefined}
+      style={{ position: 'relative', overflow: 'hidden' }}
+    >
+      {/* Skeleton / background */}
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'block',
+          ...wrapperStyle,
+        }}
+        data-loaded={loaded}
+      />
+      {/* Visually-hidden img for semantics and to allow fetchpriority attribute if needed */}
+      <img
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: (rest && (rest as any).style && (rest as any).style.objectFit) || 'cover',
+          opacity: loaded ? 1 : 0,
+          transition: 'opacity 300ms ease-in-out',
+        }}
+        loading={loading}
+        decoding={decoding}
+        src={fallbackSrc || src}
+        {...(fetchpriority ? ({ fetchpriority } as any) : {})}
+        {...rest}
+        onError={() => setFailed(true)}
+        onLoad={() => setLoaded(true)}
+        alt={(rest && (rest as any).alt) || ''}
+      />
+    </div>
   );
 }
 
