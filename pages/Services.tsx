@@ -30,7 +30,7 @@ export const ServicesPage: React.FC = () => {
       depot: withBase("images/immersion/construction.webp"),
       charpente: withBase("images/immersion/charpente.webp"),
 
-      citerne1: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.01.54 PM.jpeg"),
+      citerne1: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.01.26 PM.jpeg"),
       citerne2: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.01.43 PM.jpeg"),
       citerne3: withBase("images/immersion/WhatsApp Image 2026-01-23 at 1.01.33 PM.jpeg"),
 
