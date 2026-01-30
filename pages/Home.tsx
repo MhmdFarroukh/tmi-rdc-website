@@ -156,8 +156,8 @@ export const Home: React.FC = () => {
 
         <div className="container mx-auto px-4 z-10 flex flex-col justify-between h-full py-12 md:py-24">
           <div className="flex justify-between items-start text-white/60 font-mono text-xs uppercase tracking-widest">
-            <span>Est. 2005</span>
-            <span>Lubumbashi, RDC</span>
+            <span>Est. 2016</span>
+            <span>Kinshasa, RDC</span>
           </div>
 
           <div className="text-center text-white mix-blend-difference">

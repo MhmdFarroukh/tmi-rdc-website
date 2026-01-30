@@ -137,8 +137,14 @@ export const Layout: React.FC = () => {
                 <a href="tel:+243828391457" className="text-lg font-semibold hover:text-white transition">
                   +243 828 391 457
                 </a>
+                <a href="tel:+243828391457" className="text-lg font-semibold hover:text-white transition">
+                  +243 900 000 800
+                </a>
                 <a href="mailto:info@tmi-rdc.com" className="hover:text-white transition">
                   info@tmi-rdc.com
+                </a>
+                <a href="commercial@tmi-rdc.com" className="hover:text-white transition">
+                  commercial@tmi-rdc.com
                 </a>
               </div>
             </div>
@@ -149,7 +155,7 @@ export const Layout: React.FC = () => {
             <div className="flex flex-col gap-3">
               <span className="text-white font-bold uppercase tracking-widest text-sm">Adresse</span>
               <div className="text-white/70 leading-relaxed">
-                <div>Lubumbashi, RDC</div>
+                <div>RDC</div>
                 <div>Av. de l&apos;Industrie</div>
               </div>
             </div>
@@ -160,8 +166,14 @@ export const Layout: React.FC = () => {
                 <a href="tel:+243828391457" className="hover:text-white transition">
                   +243 828 391 457
                 </a>
+                <a href="tel:+243900000800" className="hover:text-white transition">
+                  +243 900 000 800
+                </a>
                 <a href="mailto:info@tmi-rdc.com" className="hover:text-white transition">
                   info@tmi-rdc.com
+                </a>
+                <a href="mailto:commercial@tmi-rdc.com" className="hover:text-white transition">
+                  commercial@tmi-rdc.com
                 </a>
               </div>
             </div>
