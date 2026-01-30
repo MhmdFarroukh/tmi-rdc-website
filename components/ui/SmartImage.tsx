@@ -67,9 +67,9 @@ function generateSizes(forGrid: boolean) {
 }
 
 export function SmartImage({
-  loading = "lazy",
+  loading = "eager", // Load eagerly to hide loading delay
   decoding = "async",
-  fetchpriority,
+  fetchpriority = "auto",
   src,
   responsiveSizes = false,
   forGrid = false,
@@ -81,7 +81,20 @@ export function SmartImage({
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    if (!src) return;
     setLoaded(false);
+
+    // Preload image to detect cached state immediately
+    const img = new Image();
+    img.onload = () => setLoaded(true);
+    img.onerror = () => setLoaded(true); // Still unblur on error
+    img.src = src;
+
+    // Cleanup
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+    };
   }, [src]);
 
   const webpSrcSet = useMemo(() => (responsiveSizes ? generateSrcSet(src, forGrid) : ""), [src, responsiveSizes, forGrid]);
@@ -104,19 +117,6 @@ export function SmartImage({
         ...style,
       }}
     >
-      {/* ✅ Skeleton overlay (correct) */}
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: "#0b0b0b",
-          opacity: loaded ? 0 : 1,
-          transition: "opacity 250ms ease",
-          pointerEvents: "none",
-        }}
-      />
-
       <picture>
         {src ? <source type="image/webp" srcSet={webpSrcSet || src} sizes={sizes} /> : null}
 
@@ -132,8 +132,9 @@ export function SmartImage({
             width: "100%",
             height: "100%",
             objectFit: (rest.style as any)?.objectFit || "cover",
-            opacity: loaded ? 1 : 0,
-            transition: "opacity 250ms ease",
+            opacity: 1,
+            filter: loaded ? "blur(0px)" : "blur(8px)",
+            transition: "filter 300ms ease-out 100ms",
             ...(rest.style || {}),
           }}
           {...(fetchpriority ? ({ fetchpriority } as any) : {})}
@@ -142,7 +143,7 @@ export function SmartImage({
             rest.onLoad?.(e);
           }}
           onError={(e) => {
-            // still fade in (so you don't keep a permanent skeleton)
+            // Remove blur on error so image is at least visible
             setLoaded(true);
             rest.onError?.(e);
           }}
